@@ -1,0 +1,3 @@
+- Frontend (style with tailwind)
+- Backend (lambda connected to s3)
+- 

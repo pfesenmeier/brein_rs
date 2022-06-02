@@ -1,16 +1,18 @@
 use dioxus::prelude::*;
+use brein_rs::{
+    nav_bar::NavBar,
+    row::Row,
+    data::{get_recipes, Recipe}
+};
 
 fn main() {
     dioxus::web::launch(app);
 }
 
 fn app(cx: Scope) -> Element {
+    let recipes = get_recipes();
     cx.render(rsx!{
-        div {
-            class: "flex text-5xl bg-yellow-600 p-5 fixed bottom-0 inset-x-0",
-            "Pickl", 
-            i { class: "ml-auto fa-solid fa-bars" }
-        }
+        recipes.iter().map(|recipe| { rsx!(Row { name: recipe.name.clone() }) }),
+        NavBar()
     })
 }
-
