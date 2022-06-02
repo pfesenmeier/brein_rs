@@ -11,6 +11,7 @@ fn main() {
 
 fn app(cx: Scope) -> Element {
     let recipes = get_recipes();
+    
     cx.render(rsx!{
         recipes.iter().map(|recipe| { rsx!(Row { name: recipe.name.clone() }) }),
         NavBar()
