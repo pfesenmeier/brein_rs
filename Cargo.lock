@@ -51,6 +51,24 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d468802bab17cbc0cc575e9b053f41e72aa36bfa6b7f55e3529ffa43161b97fa"
 
 [[package]]
+name = "aws_lambda_events"
+version = "0.6.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "55d7e5deac5e49330042b4e174dafe84ebf71685bfcd94f285bac7aa31e0aeb1"
+dependencies = [
+ "base64",
+ "bytes",
+ "chrono",
+ "http",
+ "http-body",
+ "http-serde",
+ "query_map",
+ "serde",
+ "serde_derive",
+ "serde_json",
+]
+
+[[package]]
 name = "backtrace"
 version = "0.3.65"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -76,7 +94,11 @@ name = "brein_rs"
 version = "0.1.0"
 dependencies = [
  "dioxus",
+ "lambda_http",
  "lambda_runtime",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
 ]
 
 [[package]]
@@ -96,6 +118,9 @@ name = "bytes"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c4872d67bab6358e59559027aa3b9157c53d9358c51423c17554809a8858e0f8"
+dependencies = [
+ "serde",
+]
 
 [[package]]
 name = "cc"
@@ -108,6 +133,20 @@ name = "cfg-if"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
+
+[[package]]
+name = "chrono"
+version = "0.4.19"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "670ad68c9088c2a963aaa298cb369688cf3f9465ce5e2d4ca10e6e0098a1ce73"
+dependencies = [
+ "libc",
+ "num-integer",
+ "num-traits",
+ "serde",
+ "time",
+ "winapi",
+]
 
 [[package]]
 name = "console_error_panic_hook"
@@ -159,6 +198,7 @@ dependencies = [
  "dioxus-hooks",
  "dioxus-html",
  "dioxus-router",
+ "dioxus-ssr",
  "dioxus-web",
 ]
 
@@ -177,6 +217,7 @@ dependencies = [
  "log",
  "longest-increasing-subsequence",
  "once_cell",
+ "serde",
  "slab",
  "smallvec",
 ]
@@ -246,6 +287,15 @@ dependencies = [
  "url",
  "wasm-bindgen",
  "web-sys",
+]
+
+[[package]]
+name = "dioxus-ssr"
+version = "0.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "51a706f1a2ee0306c36f01183be627201e98919f6cf54e44ff3d27318a75b46e"
+dependencies = [
+ "dioxus-core",
 ]
 
 [[package]]
@@ -451,6 +501,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "http-serde"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6d98b3d9662de70952b14c4840ee0f37e23973542a363e2275f4b9d024ff6cca"
+dependencies = [
+ "http",
+ "serde",
+]
+
+[[package]]
 name = "httparse"
 version = "1.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -519,6 +579,24 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "671a26f820db17c2a2750743f1dd03bafd15b98c9f30c7c2628c024c05d73397"
 dependencies = [
  "wasm-bindgen",
+]
+
+[[package]]
+name = "lambda_http"
+version = "0.5.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4b5c60a2d2d3f8e88dda6e3d999137ea42d685551af04aa0c5910c6478640335"
+dependencies = [
+ "aws_lambda_events",
+ "base64",
+ "bytes",
+ "http",
+ "http-body",
+ "lambda_runtime",
+ "query_map",
+ "serde",
+ "serde_json",
+ "serde_urlencoded",
 ]
 
 [[package]]
@@ -626,6 +704,16 @@ checksum = "a8903e5a29a317527874d0402f867152a3d21c908bb0b933e416c65e301d4c36"
 dependencies = [
  "memchr",
  "minimal-lexical",
+]
+
+[[package]]
+name = "num-integer"
+version = "0.1.45"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "225d3389fb3509a24c93f5c29eb6bde2586b98d9f016636dff58d7c6f7569cd9"
+dependencies = [
+ "autocfg",
+ "num-traits",
 ]
 
 [[package]]
@@ -740,6 +828,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "query_map"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fe3212d819cbdcce67f786cdaf3fe0c2e9d09a6dcd9c9367a1bd344135b8c809"
+dependencies = [
+ "form_urlencoded",
+ "serde",
+ "serde_derive",
+]
+
+[[package]]
 name = "quote"
 version = "1.0.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -845,6 +944,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "sharded-slab"
+version = "0.1.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "900fba806f70c630b0a382d0d825e17a0f19fcd059a2ade1ff237bcddf446b31"
+dependencies = [
+ "lazy_static",
+]
+
+[[package]]
 name = "slab"
 version = "0.4.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -904,6 +1012,25 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
+]
+
+[[package]]
+name = "thread_local"
+version = "1.1.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5516c27b78311c50bf42c071425c560ac799b11c30b31f87e3081965fe5e0180"
+dependencies = [
+ "once_cell",
+]
+
+[[package]]
+name = "time"
+version = "0.1.43"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ca8a50ef2360fbd1eeb0ecd46795a87a19024eb4b53c5dc916ca1fd95fe62438"
+dependencies = [
+ "libc",
+ "winapi",
 ]
 
 [[package]]
@@ -1038,6 +1165,18 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f54c8ca710e81886d498c2fd3331b56c93aa248d49de2222ad2742247c60072f"
 dependencies = [
  "lazy_static",
+ "valuable",
+]
+
+[[package]]
+name = "tracing-subscriber"
+version = "0.3.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4bc28f93baff38037f64e6f43d34cfa1605f27a49c34e8a04c5e78b0babf2596"
+dependencies = [
+ "sharded-slab",
+ "thread_local",
+ "tracing-core",
 ]
 
 [[package]]
@@ -1078,6 +1217,12 @@ dependencies = [
  "matches",
  "percent-encoding",
 ]
+
+[[package]]
+name = "valuable"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "830b7e5d4d90034032940e4ace0d9a9a057e7a45cd94e6c007832e39edb82f6d"
 
 [[package]]
 name = "version_check"
