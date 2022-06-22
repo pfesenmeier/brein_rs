@@ -7,11 +7,22 @@ edition = "2021"
 
 [[bin]]
 name = "lambda"
+required-features = ["lambda"]
 
 [dependencies]
 dioxus = { version = "0.2.4", features = ["web", "router", "ssr"] }
-lambda_http = "0.5.2"
-lambda_runtime = "0.5.1"
-tokio = { version = "1", features = ["macros"] }
-tracing = { version = "0.1", features = ["log"] }
-tracing-subscriber = { version = "0.3", default-features = false, features = ["fmt"] }
+# need to get rid of these
+gloo = { version = "0.7.0" }
+gloo-events = "0.1.2"
+web-sys = { version = "0.3.57", features = ["History"] }
+
+# only for sample lambda
+lambda_http = { version = "0.5.2", optional = true }
+lambda_runtime = { version = "0.5.1", optional = true }
+tokio = { version = "1", features = ["macros"], optional = true }
+tracing = { version = "0.1", features = ["log"], optional = true }
+tracing-subscriber = { version = "0.3", default-features = false, features = ["fmt"], optional = true }
+pulldown-cmark = "0.9.1"
+
+[features]
+lambda = ["lambda_http", "lambda_runtime", "tokio", "tracing", "tracing-subscriber"]

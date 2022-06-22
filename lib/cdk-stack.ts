@@ -9,13 +9,13 @@ export class CdkStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
+//    Settings.FEATURES= ["lambda"]
+
 
     const lambda = new RustFunction(this, 'brein_lambda', {
       directory: '/home/pfes/brein_rs',
       bin: 'lambda',
-//      environment: {
-//        RUST_BACKTRACE: "1"
-//      }
+      features: ['lambda']
     });
 
     const url = new FunctionUrl(this, 'brein_function_url', {

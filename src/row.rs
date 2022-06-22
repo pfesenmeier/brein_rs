@@ -15,7 +15,8 @@ pub fn Row(cx: Scope<RowProps>) -> Element {
             Link {
               class: "flex self-center ml-auto"
               to: "/recipe/{cx.props.id}",
-              i { class: "fa-arrow-right fa-solid" }
+//              i { class: "fa-arrow-right fa-solid" }
+              "=>"
             }
         }
     })
