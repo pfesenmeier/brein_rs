@@ -10,7 +10,8 @@ fn main() {
     dioxus::web::launch(app);
 }
 
-fn app(cx: Scope) -> Element {
+#[allow(non_upper_case_globals)]
+static app: Component = |cx| {
     cx.render(rsx! {
         Router {
             // see https://github.com/DioxusLabs/dioxus/issues/432
@@ -18,4 +19,4 @@ fn app(cx: Scope) -> Element {
             Route { to: "/", self::recipes::Recipes { } }
         }
     })
-}
+};

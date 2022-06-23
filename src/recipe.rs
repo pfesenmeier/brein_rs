@@ -4,14 +4,14 @@ use dioxus::prelude::*;
 use std::ffi::OsString;
 
 #[derive(Props, PartialEq, Clone)]
-pub struct RecipeProps {
+pub struct RecipeModel {
     pub id: u32,
     pub name: String,
     pub path: OsString,
     pub recipe: String,
 }
 
-impl RecipeProps {
+impl RecipeModel {
     pub fn new(id: u32, name: String, path: OsString, recipe: String) -> Self {
         Self {
             id,

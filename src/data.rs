@@ -1,32 +1,32 @@
 use crate::recipe;
-use recipe::RecipeProps;
+use recipe::RecipeModel;
 use std::ffi::OsString;
 
 pub struct RecipeDatabase {
-    recipes: Vec<RecipeProps>,
+    recipes: Vec<RecipeModel>,
 }
 
 impl RecipeDatabase {
-    pub fn new(recipes: Vec<RecipeProps>) -> Self {
+    pub fn new(recipes: Vec<RecipeModel>) -> Self {
         Self { recipes }
     }
 }
 
-pub fn load_recipes() -> Vec<RecipeProps> {
+pub fn load_recipes() -> Vec<RecipeModel> {
     vec![
-        RecipeProps::new(
+        RecipeModel::new(
             0,
             "Coconut Butter Cookies".to_string(),
             OsString::new(),
             "Step 1".to_string(),
         ),
-        RecipeProps::new(
+        RecipeModel::new(
             1,
             "Babaganouch".into(),
             OsString::new(),
             "First, ...".into(),
         ),
-        RecipeProps::new(
+        RecipeModel::new(
             2,
             "Bar Snack nuts".into(),
             OsString::new(),
@@ -36,7 +36,7 @@ pub fn load_recipes() -> Vec<RecipeProps> {
 }
 
 impl RecipeDatabase {
-    pub fn get_recipe(&self, id: u32) -> Option<RecipeProps> {
+    pub fn get_recipe(&self, id: u32) -> Option<RecipeModel> {
         if let Some(recipe) = self.recipes.iter().find(|recipe| recipe.id == id) {
             Some((*recipe).clone())
         } else {
@@ -44,7 +44,7 @@ impl RecipeDatabase {
         }
     }
 
-    pub fn get_recipes(&self) -> Vec<RecipeProps> {
+    pub fn get_recipes(&self) -> Vec<RecipeModel> {
         self.recipes.clone()
     }
 }
