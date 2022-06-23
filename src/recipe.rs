@@ -25,7 +25,7 @@ impl RecipeProps {
 #[derive(PartialEq)]
 enum EditorState {
     Display,
-    Edit
+    Edit,
 }
 
 #[allow(non_snake_case)]
@@ -36,6 +36,7 @@ pub fn Recipe(cx: Scope) -> Element {
         if let Ok(id) = u32::from_str_radix(id, 10) {
             if let Some(recipe) = database.get_recipe(id) {
                 let edit_state = use_state(&cx, || EditorState::Display);
+                let recipe_body = use_state(&cx, || recipe.recipe.clone());
 
                 cx.render(rsx! {
                     div {
@@ -52,19 +53,34 @@ pub fn Recipe(cx: Scope) -> Element {
                         }
                     }
                     match *edit_state.get() {
-                    EditorState::Display => rsx! {
-                    div {
-                        class: "bg-amber-100 h-max text-xl",
-                        "{recipe.name}",
-                    }
-                    div {
-                        "{recipe.recipe}"
-                    }},
-                    EditorState::Edit => rsx!{  "editor" },
-                    },
+                        EditorState::Display => {
+                            let options = pulldown_cmark::Options::empty();
+                            let parser = pulldown_cmark::Parser::new_ext(recipe_body, options);
+                            let mut html_output = String::new();
+                            pulldown_cmark::html::push_html(&mut html_output, parser);
+
+                            rsx! {
+                                div {
+                                    class: "bg-amber-100 h-max text-xl",
+                                    "{recipe.name}",
+                                }
+                                div {
+                                    dangerous_inner_html: "{html_output}"
+                                },
+                            }},
+                        EditorState::Edit => {
+                            let value = recipe_body.get();
+                            rsx!{  
+                                textarea {
+                                    onchange: move |event| recipe_body.set((*event.value.clone()).to_string()),
+                                    value: "{value}"
+                                } 
+                            }
+                        },
+                   },
                 })
             } else {
-               cx.render(rsx! { "Whoops, did not find that recipe" })
+                cx.render(rsx! { "Whoops, did not find that recipe" })
             }
         } else {
             cx.render(rsx! { "Whoops, could not parse a u32 from recipe id" })

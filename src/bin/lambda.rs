@@ -1,16 +1,16 @@
-use lambda_http::{run, service_fn, Error, IntoResponse, Request, RequestExt, Response};
-use dioxus::prelude::*;
-use dioxus::ssr;
+use brein_rs::nav_bar::NavBar;
 use brein_rs::recipe::Recipe;
 use brein_rs::recipes::Recipes;
-use brein_rs::nav_bar::NavBar;
+use dioxus::prelude::*;
+use dioxus::ssr;
+use lambda_http::{run, service_fn, Error, IntoResponse, Request, RequestExt, Response};
 
 pub fn Foo(cx: Scope) -> Element {
     cx.render(rsx! { "foobar" })
 }
 
 pub fn SampleComponent(cx: Scope) -> Element {
-  cx.render(rsx! { 
+    cx.render(rsx! {
       Recipes {},
       NavBar {},
     })

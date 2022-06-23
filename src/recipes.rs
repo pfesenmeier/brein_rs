@@ -1,7 +1,7 @@
-use dioxus::prelude::*;
-use crate::row::Row;
+use crate::data::{load_recipes, RecipeDatabase};
 use crate::nav_bar::NavBar;
-use crate::data::{RecipeDatabase, load_recipes};
+use crate::row::Row;
+use dioxus::prelude::*;
 
 #[allow(non_snake_case)]
 pub fn Recipes(cx: Scope) -> Element {
