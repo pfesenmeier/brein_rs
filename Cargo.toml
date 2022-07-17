@@ -9,6 +9,10 @@ edition = "2021"
 name = "lambda"
 required-features = ["lambda"]
 
+[[bin]]
+name = "get_recipes"
+required-features= ["lambda"]
+
 [dependencies]
 dioxus = { version = "0.2.4", features = ["web", "router", "ssr"] }
 # need to get rid of these

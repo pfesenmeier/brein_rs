@@ -2,7 +2,6 @@
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
 import { CdkStack } from '../lib/cdk-stack';
-import { RustFunction } from 'rust.aws-cdk-lambda'
 
 const app = new cdk.App();
 new CdkStack(app, 'CdkStack', {

@@ -61,10 +61,11 @@ pub fn Recipe(cx: Scope) -> Element {
 
                             rsx! {
                                 div {
-                                    class: "bg-amber-100 h-max text-xl",
+                                    class: "bg-amber-100 h-max text-xl mx-2",
                                     "{recipe.name}",
                                 }
                                 div {
+                                    class: "markdown-editor",
                                     dangerous_inner_html: "{html_output}"
                                 },
                             }},
@@ -72,6 +73,7 @@ pub fn Recipe(cx: Scope) -> Element {
                             let value = recipe_body.get();
                             rsx!{  
                                 textarea {
+                                    class: "w-full h-screen",
                                     onchange: move |event| recipe_body.set((*event.value.clone()).to_string()),
                                     value: "{value}"
                                 } 

@@ -2,18 +2,36 @@ import { Stack, StackProps } from 'aws-cdk-lib';
 import { FunctionUrl, FunctionUrlAuthType } from 'aws-cdk-lib/aws-lambda'
 import { Construct } from 'constructs';
 import { CfnOutput } from 'aws-cdk-lib';
+import * as s3 from 'aws-cdk-lib/aws-s3';
 import { RustFunction, Settings } from 'rust.aws-cdk-lambda';
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
+
+const directory = '/home/pfes/brein_rs'
 
 export class CdkStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-//    Settings.FEATURES= ["lambda"]
+    const bucket = new s3.Bucket(this, 'recipe_bucket', {
+      publicReadAccess: true,
+    });
 
+    Settings.BUILD_ENVIRONMENT = {
+      GET_RECIPES_BUCKET_NAME: bucket.bucketName 
+    }
+
+    const get_recipes = new RustFunction(this, 'get_recipes_function', {
+      directory,
+      bin: 'get_recipes',
+      features: ['lambda'],
+    });
+
+    const get_recipes_url = new FunctionUrl(this, 'get_recipes_url', {
+      function: get_recipes,
+      authType: FunctionUrlAuthType.NONE
+    });
 
     const lambda = new RustFunction(this, 'brein_lambda', {
-      directory: '/home/pfes/brein_rs',
+      directory,
       bin: 'lambda',
       features: ['lambda']
     });
@@ -27,13 +45,12 @@ export class CdkStack extends Stack {
       value: url.url,
     });
 
+    new CfnOutput(this, "recipe bucket arn", {
+      value: bucket.bucketArn
+    });
 
-
-    // The code that defines your stack goes here
-
-    // example resource
-    // const queue = new sqs.Queue(this, 'CdkQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
+    new CfnOutput(this, "get recipes url", {
+      value: get_recipes_url.url,
+    });
   }
 }
